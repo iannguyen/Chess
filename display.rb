@@ -9,7 +9,6 @@ include Cursorable
     @board = board
     @cursor_pos = [0,0]
     @selected = nil
-    render
   end
 
   def render
@@ -42,7 +41,5 @@ include Cursorable
     end
     @cursor_pos
   end
-
-
 
 end

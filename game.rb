@@ -4,12 +4,26 @@ require_relative 'cursorable'
 require_relative 'piece'
 
 class Game
+  include Cursorable
   attr_accessor :display, :board
 
   def initialize(board)
     @board = board
     @display = Display.new(@board)
     #add players later
+  end
+
+  def play
+    default_board
+    until game_over
+      render
+      move = get_input
+    end
+  end
+
+  def game_over
+    # game over logic here...
+    return false
   end
 
   def set_player(color, row, board)
@@ -34,7 +48,6 @@ class Game
     end
   end
 
-
   def select_squares
     display.select_squares
   end
@@ -42,5 +55,10 @@ class Game
   def render
     display.render
   end
+end
 
+if __FILE__ == $PROGRAM_NAME
+  board = Board.new
+  game = Game.new(board)
+  game.play
 end
