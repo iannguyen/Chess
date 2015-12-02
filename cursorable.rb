@@ -1,16 +1,16 @@
-require "io/console"
+require 'io/console'
 
 module Cursorable
   KEYMAP = {
-    " " => :space,
-    "h" => :left,
-    "j" => :down,
-    "k" => :up,
-    "l" => :right,
-    "w" => :left,
-    "a" => :down,
-    "s" => :up,
-    "d" => :right,
+    ' ' => :space,
+    'h' => :left,
+    'j' => :down,
+    'k' => :up,
+    'l' => :right,
+    'w' => :left,
+    'a' => :down,
+    's' => :up,
+    'd' => :right,
     "\t" => :tab,
     "\r" => :return,
     "\n" => :newline,
@@ -21,7 +21,7 @@ module Cursorable
     "\e[D" => :left,
     "\177" => :backspace,
     "\004" => :delete,
-    "\u0003" => :ctrl_c,
+    "\u0003" => :ctrl_c
   }
 
   MOVES = {
@@ -41,7 +41,8 @@ module Cursorable
     when :ctrl_c
       exit 0
     when :return, :space
-      @cursor_pos
+      debugger
+      select_squares
     when :left, :right, :up, :down
       update_pos(MOVES[key])
       nil
@@ -55,9 +56,17 @@ module Cursorable
     STDIN.raw!
 
     input = STDIN.getc.chr
-    if input == "\e" then
-      input << STDIN.read_nonblock(3) rescue nil
-      input << STDIN.read_nonblock(2) rescue nil
+    if input == "\e"
+      begin
+        input << STDIN.read_nonblock(3)
+      rescue
+        nil
+      end
+      begin
+        input << STDIN.read_nonblock(2)
+      rescue
+        nil
+      end
     end
   ensure
     STDIN.echo = true

@@ -3,7 +3,6 @@ require 'byebug'
 require_relative 'board'
 
 class Piece
-
   WHITEPIECES = {
     'King' => "\u2654",
     'Queen' => "\u2655",
@@ -21,20 +20,19 @@ class Piece
     'Pawn' => "\u265F"
   }
 
-    ROOKMOVES = [
-      [1,0],
-      [-1,0],
-      [0,1],
-      [0,-1]
-    ]
-    BISHOPMOVES = [
-      [1,1],
-      [-1,-1],
-      [1,-1],
-      [-1,1]
-    ]
-    KINGMOVES = ROOKMOVES + BISHOPMOVES
-
+  ROOKMOVES = [
+    [1, 0],
+    [-1, 0],
+    [0, 1],
+    [0, -1]
+  ]
+  BISHOPMOVES = [
+    [1, 1],
+    [-1, -1],
+    [1, -1],
+    [-1, 1]
+  ]
+  KINGMOVES = ROOKMOVES + BISHOPMOVES
 
   attr_accessor :color, :position, :moves, :board
 
@@ -59,23 +57,20 @@ class Piece
     elsif color == :b
       " #{BLACKPIECES[self.class.to_s]} ".colorize(:black)
     else
-      "   "
+      '   '
     end
   end
 
   def valid_moves
-    
   end
-
 end
 
 class SlidingPieces < Piece
-
   def possible_moves(base_moves)
     moves = []
     base_moves.each do |direction|
       new_move = [direction[0] + @position[0], direction[1] + @position[1]]
-      until !valid_move?(new_move)
+      while valid_move?(new_move)
         moves << new_move
         # debugger
         break if @board.opponent_piece?(self, new_move)
@@ -104,22 +99,18 @@ class Queen < SlidingPieces
   end
 end
 
-
-
 class SteppingPieces < Piece
-
   KNIGHTMOVES = [[-1, 2], [-2, 1], [-2, -1], [-1, -2], [1, -2], [2, -1], [2, 1], [1, 2]]
 
   def possible_moves(base_moves)
     moves = []
     base_moves.each do |direction|
       new_move = [direction[0] + @position[0], direction[1] + @position[1]]
-        moves << new_move if valid_move?(new_move)
+      moves << new_move if valid_move?(new_move)
     end
     moves
   end
 end
-
 
 class Knight < SteppingPieces
   def list_moves
@@ -133,7 +124,6 @@ class King < SteppingPieces
   end
 end
 
-
 class Pawn < Piece
   def initialize(color, position, board, moved = false)
     super(color, position, board)
@@ -142,9 +132,9 @@ class Pawn < Piece
   end
 
   def set_direction
-    if self.color == :w
+    if color == :w
       @direction = -1
-    elsif self.color == :b
+    elsif color == :b
       @direction = 1
     end
   end
@@ -177,9 +167,7 @@ class Pawn < Piece
   def list_moves
     @moves = possible_moves
   end
-
 end
-
 
 class EmptyPiece < Piece
   def initialize

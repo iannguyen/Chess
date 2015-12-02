@@ -10,40 +10,40 @@ class Game
   def initialize(board)
     @board = board
     @display = Display.new(@board)
-    #add players later
+    # add players later
   end
 
   def play
     default_board
     until game_over
       render
-      move = get_input
+      move = display.move_cursor
     end
   end
 
   def game_over
     # game over logic here...
-    return false
+    false
   end
 
   def set_player(color, row, board)
-    board[row,0] = Rook.new(color, [row,0], board)
-    board[row,1] = Knight.new(color, [row,1], board)
-    board[row,2] = Bishop.new(color, [row,2], board)
-    board[row,3] = Queen.new(color, [row,3], board)
-    board[row,4] = King.new(color, [row,4], board)
-    board[row,5] = Bishop.new(color, [row,5], board)
-    board[row,6] = Knight.new(color, [row,6], board)
-    board[row,7] = Rook.new(color, [row,7], board)
+    board[row, 0] = Rook.new(color, [row, 0], board)
+    board[row, 1] = Knight.new(color, [row, 1], board)
+    board[row, 2] = Bishop.new(color, [row, 2], board)
+    board[row, 3] = Queen.new(color, [row, 3], board)
+    board[row, 4] = King.new(color, [row, 4], board)
+    board[row, 5] = Bishop.new(color, [row, 5], board)
+    board[row, 6] = Knight.new(color, [row, 6], board)
+    board[row, 7] = Rook.new(color, [row, 7], board)
   end
 
   def default_board
     set_player(:b, 0, board)
     set_player(:w, 7, board)
-    board.grid[1].each_with_index do |space, idx|
+    board.grid[1].each_with_index do |_space, idx|
       space = Pawn.new(:b, [1, idx], board)
     end
-    board.grid[6].each_with_index do |space, idx|
+    board.grid[6].each_with_index do |_space, idx|
       space = Pawn.new(:w, [6, idx], board)
     end
   end

@@ -11,7 +11,7 @@ class Board
   end
 
   def in_bounds?(pos)
-    pos.first.between?(0,7) && pos.last.between?(0,7)
+    pos.first.between?(0, 7) && pos.last.between?(0, 7)
   end
 
   def [](row, col)
@@ -56,23 +56,22 @@ class Board
 
   def find_all_moves(color)
     all_moves = []
-    @grid.each_with_index do |row, row_idx|
-      row.each_with_index do |square, col_idx|
+    @grid.each_with_index do |row, _row_idx|
+      row.each_with_index do |square, _col_idx|
         # debugger if square is_a?(Pawn)
         if square.class != EmptyPiece && square.color == color
-            all_moves += square.list_moves
+          all_moves += square.list_moves
         end
       end
     end
     all_moves.uniq
   end
 
-
   def checkmate?(color)
     if in_check?(color)
       if find_all_moves.each do |move|
         !valid_moves.include?(move)
-      # will be addressed later
+        # will be addressed later
       end
     end
     end
@@ -97,11 +96,9 @@ class Board
     if self[to[0], to[1]].class == EmptyPiece
       piece = self[start[0], start[1]]
       self[to[0], to[1]] = piece.class.new(piece.color, piece.position, self)
-      self[start[0], start[1]] = EmptyPiece.new()
+      self[start[0], start[1]] = EmptyPiece.new
     end
 
     # self[start].position = to if valid_move?(self[start], to)
-
   end
-
 end

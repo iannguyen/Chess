@@ -2,16 +2,17 @@ require_relative 'cursorable'
 require_relative 'board'
 
 class Display
-include Cursorable
+  include Cursorable
   attr_reader :board
 
   def initialize(board)
     @board = board
-    @cursor_pos = [0,0]
+    @cursor_pos = [0, 0]
     @selected = nil
   end
 
   def render
+    system('clear')
     @board.grid.each_with_index do |row, row_idx|
       row.each_with_index do |square, col_idx|
         if @selected == [row_idx, col_idx]
@@ -19,7 +20,7 @@ include Cursorable
         elsif @cursor_pos == [row_idx, col_idx]
           print square.to_s.colorize(background: :green)
         elsif (row_idx + col_idx).even?
-            print square.to_s.colorize(background: :blue)
+          print square.to_s.colorize(background: :blue)
         elsif (row_idx + col_idx).odd?
           print square.to_s.colorize(background: :red)
         end
@@ -30,16 +31,15 @@ include Cursorable
   end
 
   def select_squares
-    @selected = move_cursor
-    move_cursor
+    if @selected
+      @selected = @cursor_pos
+    else
+      @selected = @cursor_pos
+    end
   end
 
   def move_cursor
-    until get_input
-      system("clear")
-      render
-    end
+    render until get_input
     @cursor_pos
   end
-
 end
