@@ -41,7 +41,6 @@ module Cursorable
     when :ctrl_c
       exit 0
     when :return, :space
-      debugger
       select_squares
     when :left, :right, :up, :down
       update_pos(MOVES[key])
